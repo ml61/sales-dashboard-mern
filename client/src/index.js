@@ -7,13 +7,15 @@ import globalReducer from "state";
 import { Provider } from "react-redux";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { apiSlice } from "state/api";
+import { rtkQueryLogger } from "state/middlewares";
 
 const store = configureStore({
   reducer: {
     global: globalReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
-  middleware: (getDefault) => getDefault().concat(apiSlice.middleware),
+  middleware: (getDefault) =>
+    getDefault().concat(apiSlice.middleware, rtkQueryLogger),
 });
 setupListeners(store.dispatch);
 
